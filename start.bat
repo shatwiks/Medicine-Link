@@ -99,8 +99,17 @@ echo     * NGO:         rohan@ashahealth.demo.org
 echo     * Admin:       admin@medicinelink.demo.org
 echo ================================================================
 echo.
-echo Waiting 3 seconds before opening browser...
-ping 127.0.0.1 -n 4 >nul
+echo Waiting for frontend dev server to be ready...
+for /L %%i in (1,1,25) do (
+    curl.exe -s -o NUL http://localhost:5173 >nul 2>&1
+    if !errorlevel! equ 0 (
+        goto :server_ready
+    )
+    ping 127.0.0.1 -n 2 >nul
+)
+
+:server_ready
+echo [OK] Dev server is live! Opening browser...
 start http://localhost:5173
 
 echo.
