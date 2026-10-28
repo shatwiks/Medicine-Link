@@ -16,7 +16,21 @@
 
 ## 2. Quick Start
 
-### Start the Backend API (`http://localhost:4000`)
+### ⚡ One-Click Startup (Windows)
+Simply double-click `start.bat` in the project root (or run `.\start.bat` in terminal).
+This automatically:
+1. Validates Node.js and npm
+2. Creates `backend/.env` from `.env.example` (if missing)
+3. Installs backend & frontend dependencies if needed
+4. Runs database migrations and seeds sample data (if first run)
+5. Launches both backend (`:4000`) and frontend (`:5173`) in dedicated windows
+6. Opens your browser at `http://localhost:5173`
+
+---
+
+### Manual Startup
+
+#### Backend API (`http://localhost:4000`)
 ```bash
 cd backend
 npm install
