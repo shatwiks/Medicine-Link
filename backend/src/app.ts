@@ -78,6 +78,7 @@ const openApiSpec = {
 
 export function createApp() {
   const app = express();
+  app.disable('x-powered-by');
 
   app.use(requestIdMiddleware);
   app.use(
@@ -93,7 +94,16 @@ export function createApp() {
   );
   app.use(express.json({ limit: '1mb' }));
   app.use(cookieParser());
-  app.use('/uploads', express.static(path.resolve(env.UPLOAD_DIR)));
+  app.use(
+    '/uploads',
+    express.static(path.resolve(env.UPLOAD_DIR), {
+      dotfiles: 'deny',
+      setHeaders: (res) => {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('Content-Disposition', 'attachment');
+      },
+    })
+  );
 
   if (env.NODE_ENV !== 'test') {
     const generalLimiter = rateLimit({
@@ -112,7 +122,9 @@ export function createApp() {
     app.use('/api', generalLimiter);
   }
 
-  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
+  if (env.NODE_ENV !== 'production' || process.env.ENABLE_DOCS === 'true') {
+    app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
+  }
   app.get('/health', (_req, res) => {
     res.json({ success: true, data: { status: 'ok' } });
   });

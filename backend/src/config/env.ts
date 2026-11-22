@@ -16,3 +16,16 @@ export const env = {
   MAX_UPLOAD_MB: Number(process.env.MAX_UPLOAD_MB || 5),
   OCR_TIMEOUT_MS: Number(process.env.OCR_TIMEOUT_MS || 15000),
 };
+
+if (env.NODE_ENV === 'production') {
+  if (
+    env.JWT_ACCESS_SECRET === 'medicinelink_access_secret_demo_only' ||
+    env.JWT_ACCESS_SECRET.length < 32 ||
+    env.JWT_REFRESH_SECRET === 'medicinelink_refresh_secret_demo_only' ||
+    env.JWT_REFRESH_SECRET.length < 32
+  ) {
+    throw new Error(
+      'CRITICAL SECURITY VIOLATION: JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be set (>= 32 chars) in production.'
+    );
+  }
+}
