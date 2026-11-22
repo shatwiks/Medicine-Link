@@ -1,5 +1,18 @@
 # Change Report
 
+## 2026-11-22 07:16 IST — Automated Dependabot Security Updates
+
+### Objective
+Enable automated weekly GitHub Dependabot vulnerability & dependency updates across repository package ecosystems.
+
+### Files Created
+- `.github/dependabot.yml` — Configured weekly Dependabot monitoring for `npm` (/backend, /frontend).
+
+### Verification Results
+- `yaml.safe_load(.github/dependabot.yml)` — PASS.
+
+---
+
 ## 2026-11-22 07:10 IST — Pre-LinkedIn Production Security Hardening
 
 ### Objective
